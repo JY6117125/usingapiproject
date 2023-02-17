@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="text" id="name" value="london">
+    <button type="submit" id="submit" onclick="getsomthing()"> Check the weather</button>
+    <div>weather: </div>
+
+    <script>
+        // const baseUrl = "https://superheroapi.com/api/"
+        // async function dosomething() {
+        //     await fetch(baseUrl, {
+        //         method: 'GET',
+        //         headers: {
+        //             'x-api-key': '3400227193529359'
+        //         }
+        //     }
+        //     )
+        //         .then((response) => response.json()
+        //         )
+        //         .then((response) => console.log(response))
+        //     // .then((data) => console.log(data));
+        // } dosomething()
+        // var city
+        // function printsomething(){
+        //    city = document.getElementById("name").value 
+        //    console.log(city)
+        //    return getsomthing()
+
+
+        // }
+        var lat, lon
+        async function getsomthing() {
+            var city = document.getElementById("name").value
+            const key = "157059ec2bc300787cefbd3f5a68bd2c"
+            const urla = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${key}`
+            const respose = await fetch(urla)
+            const resposejs = await respose.json()
+            lat = resposejs[1].lat;
+            lon = resposejs[1].lon;
+            return showsomthing()
+
+
+        }
+        async function showsomthing() {
+
+            const key = "157059ec2bc300787cefbd3f5a68bd2c"
+
+            const url2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`
+            const respose = await fetch(url2)
+
+            const resposejs = await respose.json()
+            console.log(resposejs.weather[0])
+            document.querySelector("div").innerHTML+=resposejs.weather[0].description
+        }
+    </script>
+</body>
+
+</html>
